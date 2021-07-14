@@ -1,25 +1,46 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import NavbarC from './Component/Navbar/NavbarC';
+import Cards from './Component/Cards/Cards';
+import Dialog from './Component/Dialog/Dialog';
+import { useState } from 'react';
+
+
+
 
 function App() {
+  const [clicked, setclicked] = useState(false)
+  const [dialogimage, setdialogimage] = useState('')
+  const [moviename, setmoviename] = useState('')
+
+  const movieClicked = (e:any,mpath:any,name:any)=>{
+    setclicked(true)
+    setdialogimage(e);
+    setmoviename(name)
+    
+  }
+  const movieClosed = (e1:any)=>{
+    console.log("closed ");
+    setclicked(false)
+  }
+  const diclicked = (path:any,moviename:any)=>{
+    console.log(path);
+    setclicked(true)    
+    setdialogimage(path)
+    setmoviename(moviename)
+
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <>
+      <NavbarC dialogclick = {diclicked} />
+      <Cards clicked={movieClicked} title={'Popular'} movietype={"popularity"}/>
+      <Cards clicked={movieClicked} title={'Most Revenue'} movietype={"revenue"}/>
+      <Cards clicked={movieClicked} title={'Most Famous'} movietype={"vote_count"} />
+      <Dialog isit={clicked} isitClosed={movieClosed} data={dialogimage} movien={moviename}/>
+
+   </>
   );
 }
 
